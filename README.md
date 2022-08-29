@@ -1,2 +1,2 @@
-# MCBE-server-status-Discord
+# MCBE-server-status2Discord
 現在編集中...
