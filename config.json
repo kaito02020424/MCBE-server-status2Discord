@@ -1,6 +1,7 @@
 {
  "WebHook":"YOUR DISCORD WEBHOOK-URL",
  "Server":"YOUR SERVER ADDRESS",
+ "PORT":NUMBER,
  "Bot Name":"WEBHOOK MESSAGE BOT NAME",
  "Regularly Message":{
   "enabled":BOOL(true OR false),
