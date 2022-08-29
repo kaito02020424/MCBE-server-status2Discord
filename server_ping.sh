@@ -2,7 +2,8 @@
 #変数定義
 webhook=`jq -r '.WebHook' ./config.json`
 server=`jq -r '.Server' ./config.json`
-online=`curl https://api.mcsrvstat.us/bedrock/2/${server} -sS | jq '.online'`
+port=`jq '.PORT' ./config.json`
+online=`curl https://api.mcsrvstat.us/bedrock/2/${server}:${port} -sS | jq '.online'`
 bot_name=`jq -r '."Bot Name"' ./config.json`
 #初期化
 if [ $online = "true" ]; then
@@ -20,7 +21,7 @@ cycle_message=$((`date +%s%3N`))
 while :
 do
 	if [ $(($((`date +%s%3N`)) - $last_time)) -ge 30000 ]; then
-		online=`curl https://api.mcsrvstat.us/bedrock/2/${server} -sS | jq '.online'`
+		online=`curl https://api.mcsrvstat.us/bedrock/2/${server}:${port} -sS | jq '.online'`
 		last_time=$((`date +%s%3N`))
 	fi
 	if [ $online = "true" ]; then
