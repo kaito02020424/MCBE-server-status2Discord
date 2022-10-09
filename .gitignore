@@ -1,0 +1,6 @@
+/docs/*
+/tests/*
+/discord.sh
+/Makefile
+/run_tests.sh
+/config-copy.json

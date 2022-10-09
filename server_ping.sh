@@ -13,6 +13,7 @@ else
 	old_ping="offline"
 	echo "初期値:offline"
 fi
+API="online"
 last_time=$((`date +%s%3N`))
 cycle_message=$((`date +%s%3N`))
 
@@ -22,13 +23,21 @@ while :
 do
 	if [ $(($((`date +%s%3N`)) - $last_time)) -ge 30000 ]; then
 		online=`curl https://api.mcsrvstat.us/bedrock/2/${server}:${port} -sS | jq '.online'`
+		if [ $? = 0 ] && [ $API = "online" ]; then
+			API=offline
+			./discord.sh --color 0x32f224 --title "APIサーバーがダウンしました" --webhook-url "${webhook}" --username "${bot_name}"
+		elif [ $? = 1 ] && [ $API = "offline" ]; then
+			API="online"
+			./discord.sh --color 0x32f224 --title "APIサーバーがオンラインに復帰しました" --webhook-url "${webhook}" --username "${bot_name}"
+		fi
+
 		last_time=$((`date +%s%3N`))
 	fi
 	if [ $online = "true" ]; then
 		if [ $old_ping = "offline" ]; then
 			echo "オンライン復帰検知"
 			old_ping="online"
-			./discord.sh --color 0x32f224 --title "サーバーがオンラインに復帰しました" --webhook-url "${webhook}" --username "${bot_name}"
+			./discord.sh --color 0x32f224 --title "サーバーがオンラインに復帰しました"。 --webhook-url "${webhook}" --username "${bot_name}"
 		fi
 	else
 		if [ $old_ping = "online" ]; then
